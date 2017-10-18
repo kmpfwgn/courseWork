@@ -10,8 +10,8 @@ def main():
     WINDOW_Y = 400
 
     app = QApplication(sys.argv)
-    player = Player("player.jpg", 0, WINDOW_Y)
-    field = GameField(player, WINDOW_X, WINDOW_Y)
+    player = Player("player.jpg", WINDOW_X, WINDOW_Y)
+    field = GameField(player, WINDOW_X, WINDOW_Y, 10)
 
     sys.exit(app.exec_())
 
