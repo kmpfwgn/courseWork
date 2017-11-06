@@ -17,6 +17,11 @@ class Player(QPixmap):
 
         self.speed_coef = 4
 
+        self.shooting_speed = 500
+        self.shooting_time = 0
+        self.shooting_times = 0
+        self.t = False
+
     def move(self, x_boost, y_boost):
 
         self.x_speed = x_boost * self.speed_coef
@@ -36,3 +41,31 @@ class Player(QPixmap):
             self.x = 0
         elif self.x > (self.WINDOW_X / 2):
             self.x = self.WINDOW_X / 2
+
+        if self.t:
+            if self.shooting_speed == self.shooting_time:
+                self.shooting_time = 0
+                if self.shooting_times != 0:
+                    self.shot()
+                    self.shooting_times -= 1
+                if self.shooting_times == 0:
+                    self.shooting_times = 0
+                    self.t = False
+
+            self.shooting_time += 10
+
+    def shot(self):
+        print(1)
+
+    def start_stop_shooting(self, value):
+        # if value:
+        #     self.shooting_times += 1
+        #     self.t = True
+        #
+
+        if value:
+            print(1)
+        else:
+            print(2)
+
+
