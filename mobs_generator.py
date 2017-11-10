@@ -1,15 +1,17 @@
-from PyQt5.QtGui import QPixmap
+from mobs import *
 
 
 class MobsGenerator:
-
     def __init__(self):
-
         self.mobs = dict()
 
-        self.load_mobs()
+    def generate_mobs(self):
+        mobs = []
 
-    def load_mobs(self):
+        for i in range(5):
+            new_mob = test_mob.TestMob(800 + i * test_mob.TestMob.PICTURE.width() + i*30,
+                                       200,
+                                       i * 0.7)
+            mobs.append(new_mob)
 
-        self.mobs = {"test_mob1": QPixmap("src/test_mob1.jpg"),
-                     "test_mob2": QPixmap("src/test_mob2.jpg")}
+        return mobs

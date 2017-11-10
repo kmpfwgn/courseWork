@@ -1,7 +1,12 @@
-from PyQt5.Qt import *
+from PyQt5.QtGui import *
+from weapon.bullet import Bullet
 
 
 class Player(QPixmap):
+
+    SPEED = 4
+    RELOADING = 30
+    WEAPON = {1: "Bullet", 2: "Rocket"}
 
     def __init__(self, picture_path, x, y):
         super().__init__(picture_path)
@@ -15,22 +20,27 @@ class Player(QPixmap):
         self.x_speed = 0
         self.y_speed = 0
 
-        self.speed_coef = 4
+        self.shooting = False
+        self.current_weapon = 1
+        self.reloading_time = 0
 
-        self.shooting_speed = 500
-        self.shooting_time = 0
-        self.shooting_times = 0
-        self.t = False
+    def move_x(self, boost):
 
-    def move(self, x_boost, y_boost):
+        self.x_speed = boost * Player.SPEED
+        self.y_speed = 0
 
-        self.x_speed = x_boost * self.speed_coef
-        self.y_speed = y_boost * self.speed_coef
+    def move_y(self, boost):
+
+        self.y_speed = boost * Player.SPEED
+        self.x_speed = 0
 
     def update(self):
 
         self.x += self.x_speed
         self.y += self.y_speed
+
+        if self.reloading_time > 0:
+            self.reloading_time -= 1
 
         if self.y < 0:
             self.y = 0
@@ -42,30 +52,21 @@ class Player(QPixmap):
         elif self.x > (self.WINDOW_X / 2):
             self.x = self.WINDOW_X / 2
 
-        if self.t:
-            if self.shooting_speed == self.shooting_time:
-                self.shooting_time = 0
-                if self.shooting_times != 0:
-                    self.shot()
-                    self.shooting_times -= 1
-                if self.shooting_times == 0:
-                    self.shooting_times = 0
-                    self.t = False
+    def start_shooting(self):
+        self.shooting = True
 
-            self.shooting_time += 10
+    def stop_shooting(self):
+        self.shooting = False
 
     def shot(self):
-        print(1)
+        self.reloading_time += Player.RELOADING
 
-    def start_stop_shooting(self, value):
-        # if value:
-        #     self.shooting_times += 1
-        #     self.t = True
-        #
+        x = str(self.x + self.width())
+        y = str(self.y + self.height()/2)
+        new_shot = Player.WEAPON[self.current_weapon] + "(" + x + "," + y + ")"
+        return eval(new_shot)
 
-        if value:
-            print(1)
-        else:
-            print(2)
+
+
 
 
